@@ -12,7 +12,8 @@ const CreateUser = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
 
-  const addUserHandler = () => {
+  const addUserHandler = (e) => {
+    e.preventDefault();
     const userData = {
       id: Date.now(),
       username: name,
@@ -34,44 +35,44 @@ const CreateUser = () => {
     <div className='card'>
       <div className='card-body'>
         <h1 className='display-4'>Create User</h1>
-        <div className='form-group'>
-          <label>Name</label>
-          <input
-            type='text'
-            className='form-control'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            maxLength='15'
-          />
-        </div>
-        <div className='form-group'>
-          <label>Email address</label>
-          <input
-            type='email'
-            className='form-control'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            maxLength='25'
-          />
-        </div>
-        <div className='form-group'>
-          <label>Phone</label>
-          <input
-            type='tel'
-            className='form-control'
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            maxLength='15'
-          />
-        </div>
-        <button
-          type='submit'
-          className='btn btn-primary'
-          onClick={addUserHandler}
-          data-testid='submit-button'
-        >
-          Submit
-        </button>
+        <form onSubmit={addUserHandler}>
+          <div className='form-group'>
+            <label>Name</label>
+            <input
+              type='text'
+              className='form-control'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              maxLength='15'
+            />
+          </div>
+          <div className='form-group'>
+            <label>Email address</label>
+            <input
+              type='email'
+              className='form-control'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              maxLength='25'
+            />
+          </div>
+          <div className='form-group'>
+            <label>Phone</label>
+            <input
+              type='tel'
+              className='form-control'
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              maxLength='15'
+            />
+          </div>
+          <button
+            type='submit'
+            className='btn btn-primary'
+          >
+            Submit
+          </button>
+        </form>
       </div>
     </div>
   );

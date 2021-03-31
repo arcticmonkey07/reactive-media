@@ -12,7 +12,8 @@ const EditUser = ({ user }) => {
   const [email, setEmail] = useState(user.email);
   const [phone, setPhone] = useState(user.phone);
 
-  const changeUserHandler = () => {
+  const changeUserHandler = (e) => {
+    e.preventDefault();
     const userData = {
       id: user.id,
       username: username,
@@ -25,7 +26,7 @@ const EditUser = ({ user }) => {
   };
 
   return (
-    <div>
+    <form onSubmit={changeUserHandler}>
       <div className='form-group'>
         <label>Name</label>
         <input
@@ -65,11 +66,10 @@ const EditUser = ({ user }) => {
       <button
         type='submit'
         className='btn btn-primary'
-        onClick={changeUserHandler}
       >
         Change
       </button>
-    </div>
+    </form>
   );
 };
 

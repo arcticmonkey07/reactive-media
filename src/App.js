@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { createStore, compose, applyMiddleware  } from 'redux';
 import rootReducer from './redux/index';
 import thunk from 'redux-thunk';
@@ -15,11 +15,11 @@ const App = () => {
   const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Provider className='App' store={store}>
         <Wrapper />
       </Provider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

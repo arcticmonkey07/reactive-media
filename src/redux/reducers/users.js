@@ -1,18 +1,18 @@
 import { SET_USERS, SET_USER, SET_USER_POSTS, EDIT_USER } from '../types';
 import initialPosts from '../initialPosts';
 
-let savedState;
-let getUsers;
-let getPosts;
+let savedState, getUsers, getPosts, setLoaded;
 
 if (localStorage.getItem('users')) {
+  setLoaded = true;
   savedState = JSON.parse(localStorage.getItem('users'));
   getPosts = savedState.usersPosts;
   getUsers = savedState.users;
-  console.log(savedState)
+  setLoaded = false;
 } else {
   getUsers = [];
   getPosts = initialPosts;
+  setLoaded = true;
 }
 
 const updateStorage = state => {
@@ -20,6 +20,7 @@ const updateStorage = state => {
 };
 
 const initialState = {
+  isLoaded: setLoaded,
   users: getUsers,
   usersPosts: getPosts
 }
@@ -28,6 +29,7 @@ const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USERS:
       state.users = action.users;
+      state.isLoaded = false;
       updateStorage(state);
       return state;
     case SET_USER:

@@ -5,15 +5,13 @@ import { fetchUsers } from '../../redux/actions/users';
 import User from './User/User';
 
 const Users = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const users = useSelector((state) => state.users.users);
+  const isLoaded = useSelector((state) => state.users.isLoaded);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsLoading(true);
     loadUsers();
-    setIsLoading(false);
   }, []);
 
   const loadUsers = async () => {
@@ -29,7 +27,7 @@ const Users = () => {
       <div className='card-body'>
         <h1 className='display-4'>Users</h1>
         <div className='row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4'>
-          {isLoading ? (
+          {isLoaded ? (
             <div className='d-flex justify-content-center'>
               <div className='spinner-border' role='status'>
                 <span className='sr-only'>Loading...</span>
