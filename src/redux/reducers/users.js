@@ -1,45 +1,54 @@
-import { SET_USERS, SET_USER, SET_USER_POSTS, EDIT_USER } from '../types';
+import {
+  SET_USERS,
+  SET_STORAGE_USERS,
+  SET_LOAD,
+  SET_USER,
+  SET_USER_POSTS,
+  SET_STORAGE_POSTS,
+  EDIT_USER,
+} from '../types';
 import initialPosts from '../initialPosts';
 
-let savedState, getUsers, getPosts, setLoaded;
-
-if (localStorage.getItem('users')) {
-  setLoaded = true;
-  savedState = JSON.parse(localStorage.getItem('users'));
-  getPosts = savedState.usersPosts;
-  getUsers = savedState.users;
-  setLoaded = false;
-} else {
-  getUsers = [];
-  getPosts = initialPosts;
-  setLoaded = true;
-}
-
-const updateStorage = state => {
-  localStorage.setItem('users', JSON.stringify(state));
-};
-
 const initialState = {
-  isLoaded: setLoaded,
-  users: getUsers,
-  usersPosts: getPosts
-}
+  isLoaded: false,
+  users: [],
+  usersPosts: initialPosts,
+};
 
 const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USERS:
-      state.users = action.users;
-      state.isLoaded = false;
-      updateStorage(state);
-      return state;
+      return {
+        ...state,
+        users: action.payload,
+        isLoaded: false,
+      };
+    case SET_STORAGE_USERS:
+      return {
+        ...state,
+        users: action.payload,
+        isLoaded: false,
+      };
+    case SET_LOAD:
+      return {
+        ...state,
+        isLoaded: action.payload,
+      };
     case SET_USER:
-      state.users = state.users.concat(action.payload);
-      updateStorage(state);
-      return state;
+      return {
+        ...state,
+        users: state.users.concat(action.payload),
+      };
     case SET_USER_POSTS:
-      state.usersPosts = state.usersPosts.concat(action.payload)
-      updateStorage(state);
-      return state;
+      return {
+        ...state,
+        usersPosts: state.usersPosts.concat(action.payload),
+      };
+    case SET_STORAGE_POSTS:
+      return {
+        ...state,
+        usersPosts: action.payload
+      };
     case EDIT_USER:
       const user = state.users.find((user) => {
         return user.id === action.payload.id;
@@ -47,7 +56,6 @@ const usersReducer = (state = initialState, action) => {
       user.username = action.payload.username;
       user.email = action.payload.email;
       user.phone = action.payload.phone;
-      updateStorage(state);
       return state;
     default:
       return state;
